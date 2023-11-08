@@ -51,6 +51,8 @@ jobs:
           path: ${{ steps.dokuwiki-env.outputs.dir }}
           commit-message: "🤖 Rector and PHPCS fixes"
           title: "🤖 Automatic code style fixes"
+          assignees: mprins
+          reviewers: mprins
           body: |
             These changes were made automatically by running rector and phpcbf.
 
