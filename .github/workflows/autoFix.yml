@@ -2,9 +2,10 @@ name: "Auto-Fix code"
 # see: https://github.com/dokuwiki/github-action/blob/main/.github/workflows/autofix.yml
 
 on:
-  push:
-    branches:
-      - master
+  workflow_call:
+
+env:
+  PHP_VERSION: "8.2"
 
 permissions:
   contents: write
@@ -19,10 +20,10 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Setup PHP
+      - name: Setup PHP ${{ env.PHP_VERSION }}
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.2'
+          php-version: ${{ env.PHP_VERSION }}
           tools: phpcbf, rector
 
       - name: Create DokuWiki Environment
