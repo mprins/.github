@@ -24,13 +24,17 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ env.PHP_VERSION }}
-          tools: phpcbf, rector
 
       - name: Create DokuWiki Environment
         id: dokuwiki-env
         uses: dokuwiki/github-action/.github/actions/dokuenv@main
         with:
           branch: master
+
+      - name: Install Composer Dependencies
+        run: |
+          cd _test
+          composer install --no-progress --no-suggest --no-interaction --prefer-dist --optimize-autoloader --no-scripts
 
       - name: Setup Cache
         uses: actions/cache@v3
@@ -39,11 +43,11 @@ jobs:
           key: ${{ runner.os }}-rector-${{ hashFiles('_test/rector.php') }}
 
       - name: Run Rector
-        run: rector process --config _test/rector.php --no-diffs
+        run: ./_test/vendor/bin/rector process --config _test/rector.php --no-diffs
 
       - name: Run PHP CodeSniffer autofixing
         continue-on-error: true
-        run: phpcbf --standard=_test/phpcs_MigrationAdjustments.xml
+        run: ./_test/vendor/bin/phpcbf --standard=_test/phpcs_MigrationAdjustments.xml
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5
@@ -52,7 +56,6 @@ jobs:
           commit-message: "🤖 Rector and PHPCS fixes"
           title: "🤖 Automatic code style fixes"
           assignees: mprins
-          reviewers: mprins
           body: |
             These changes were made automatically by running rector and phpcbf.
 
