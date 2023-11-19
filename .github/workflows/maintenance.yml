@@ -1,0 +1,44 @@
+name: 'Repository Maintenance'
+
+on:
+  workflow_call:
+    inputs:
+      pr-inactive-days:
+        required: false
+        default: 22
+        type: string
+      issue-inactive-days:
+        required: false
+        default: 63
+        type: string
+
+concurrency:
+  group: lock
+
+jobs:
+  action:
+    name: 'Lock Threads'
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
+    steps:
+      - uses: dessant/lock-threads@v5
+        with:
+          github-token: ${{ github.token }}
+          issue-inactive-days: ${{ inputs.issue-inactive-days }}
+          pr-inactive-days: ${{ inputs.pr-inactive-days }}
+          issue-comment: 'This thread has been automatically locked since there has not been any recent activity after it was closed. Please open a new issue for related bugs.'
+
+
+  workflows:
+    runs-on: ubuntu-latest
+    name: 'Cleanup old workflow runs'
+    steps:
+      - name: 'Delete workflow runs'
+        uses: Mattraks/delete-workflow-runs@v2
+        with:
+          token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          retain_days: 45
+          keep_minimum_runs: 2
