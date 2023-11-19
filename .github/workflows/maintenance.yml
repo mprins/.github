@@ -12,9 +12,6 @@ on:
         default: 63
         type: string
 
-concurrency:
-  group: lock
-
 jobs:
   action:
     name: 'Lock Threads'
