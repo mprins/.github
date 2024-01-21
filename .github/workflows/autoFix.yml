@@ -37,7 +37,7 @@ jobs:
           composer install --no-progress --no-suggest --no-interaction --prefer-dist --optimize-autoloader --no-scripts
 
       - name: Setup Cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: _test/.rector-cache
           key: ${{ runner.os }}-rector-${{ hashFiles('_test/rector.php') }}
