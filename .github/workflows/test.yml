@@ -4,12 +4,10 @@ on:
   workflow_call:
     inputs:
       php-version:
-        required: false
-        default: '8.2'
+        required: true
         type: string
       dokuwiki-branch:
-        required: false
-        default: 'master'
+        required: true
         type: string
 
 permissions:
