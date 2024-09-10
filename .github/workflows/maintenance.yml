@@ -11,9 +11,17 @@ on:
         required: false
         default: 63
         type: string
+      days-before-stale:
+        required: false
+        default: 63
+        type: string
+      days-before-close:
+        required: false
+        default: 9
+        type: string
 
 jobs:
-  action:
+  lock:
     name: 'Lock Threads'
     runs-on: ubuntu-latest
     permissions:
@@ -27,6 +35,20 @@ jobs:
           pr-inactive-days: ${{ inputs.pr-inactive-days }}
           exclude-any-issue-labels: 'upstream, help-wanted'
           issue-comment: 'This thread has been automatically locked since there has not been any recent activity after it was closed. Please open a new issue for related bugs.'
+
+  stale:
+    name: 'Close Stale PRs'
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      pull-requests: write
+    steps:
+      - uses: 'actions/stale@v9'
+        with:
+          days-before-stale: ${{ inputs.days-before-stale }}
+          days-before-close: ${{ inputs.days-before-close }}
+          exempt-issue-labels: 'upstream, help-wanted, pull-request-accepted'
+          exempt-pr-labels: 'upstream, help-wanted, pull-request-accepted'
 
 
   workflows:
