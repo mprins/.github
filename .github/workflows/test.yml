@@ -48,7 +48,7 @@ jobs:
           composer install --no-progress --no-suggest --no-interaction --prefer-dist --optimize-autoloader --no-scripts          
 
       - name: Setup PHPUnit
-        # old branches
+        # old-stable / 2023-04-04b "Jack Jackrum" branch
         run: |
           if [ -f _test/fetchphpunit.php ]; then
             php _test/fetchphpunit.php
