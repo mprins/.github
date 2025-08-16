@@ -24,7 +24,7 @@ jobs:
     name: Create release
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Setup name and version
         id: version
@@ -51,7 +51,7 @@ jobs:
           php-version: ${{ env.PHP_VERSION }}
 
       - name: Checkout dokuwiki versionfix tool
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           repository: splitbrain/dokuwiki-versionfix
           path: versionfix
