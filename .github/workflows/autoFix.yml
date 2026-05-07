@@ -6,7 +6,8 @@ on:
 
 env:
   PHP_VERSION: "8.2"
-
+  DW_BRANCH: 'stable'
+  
 permissions:
   contents: write
   pull-requests: write
@@ -29,7 +30,7 @@ jobs:
         id: dokuwiki-env
         uses: dokuwiki/github-action/.github/actions/dokuenv@main
         with:
-          branch: master
+          branch: ${{ ENV.DW_BRANCH }}
 
       - name: Install Composer Dependencies
         run: |
@@ -57,7 +58,7 @@ jobs:
           title: "🤖 Automatic code style fixes"
           assignees: mprins
           body: |
-            These changes were made automatically by running rector and phpcbf.
+            These changes were made automatically by running rector and phpcbf against ${{ ENV.DW_BRANCH }}.
 
             Please carefully check the changes before merging. Please note that unit tests are not run for automated pull requests - so if in doubt, manually test the branch before merging.
 
